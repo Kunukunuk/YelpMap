@@ -18,6 +18,8 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var categoriesListLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var totalReviewLabel: UILabel!
+    
     
     var restaurant: Restaurant?
     var reviwers: [Reviewers]?
@@ -41,10 +43,27 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         categoriesListLabel.text = restaurant?.categories
         phoneLabel.text = restaurant?.phoneNumber
         ratingLabel.text = "\((restaurant?.rating)!)"
-        
+        totalReviewLabel.text = "\((restaurant?.reviewCount)!) Reviews"
         tableView.dataSource = self
         tableView.delegate = self
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 50
+        
+        getReviews()
             
+    }
+    
+    func getReviews() {
+        APIManager().getRestaurantReviews(with: (restaurant?.id)!, completion: { (reviwers: [Reviewers]?, error: Error?) in
+            if let error = error {
+                print("error getting reviews: \(error.localizedDescription)")
+            } else {
+                print("successful gettiung reviews")
+                self.reviwers = reviwers
+                self.tableView.reloadData()
+            }
+        })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -52,7 +71,10 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewerCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewerCell", for: indexPath) as! ReviewerCell
+        if reviwers != nil {
+            cell.reviewer = reviwers?[indexPath.row]
+        }
         
         return cell
     }

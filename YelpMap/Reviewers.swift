@@ -11,16 +11,16 @@ import UIKit
 
 class Reviewers: NSObject {
     
-    let rating: NSNumber?
+    let rating: Double?
     let reviewText: String?
     let dateCreated: String?
     let reviewerName: String?
-    let reviewerImage: URL?
+    let reviewerImage: UIImage?
     let ratingImage: UIImage?
     
     init(dictionary: [String: Any]) {
         
-        rating = dictionary["rating"] as? NSNumber
+        rating = dictionary["rating"] as? Double
         
         switch rating {
         case 1:
@@ -63,7 +63,12 @@ class Reviewers: NSObject {
         
         reviewerName = user!["name"] as? String
         let urlString = user!["image_url"] as? String
-        reviewerImage = URL(string: urlString!)
+        let imageURL = URL(string: urlString!)
+        if let data = try? Data(contentsOf: imageURL!) {
+            reviewerImage = UIImage(data: data)
+        } else {
+            reviewerImage = UIImage(named: "Food")
+        }
         
     }
     

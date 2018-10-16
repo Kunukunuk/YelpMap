@@ -17,6 +17,23 @@ class ReviewerCell: UITableViewCell {
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var reviewLabel: UILabel!
     
+    var reviewer: Reviewers? {
+        didSet {
+            if reviewer?.reviewerImage != nil {
+                profileImageView.image = reviewer?.reviewerImage
+            }
+            if reviewer?.ratingImage != nil {
+                ratingImage.image = reviewer?.ratingImage
+            }
+            postDate.text = reviewer?.dateCreated
+            reviewerNameLabel.text = reviewer?.reviewerName
+            ratingLabel.text = "\((reviewer?.rating)!)"
+            reviewLabel.text = reviewer?.reviewText
+            print("review: \(reviewer?.reviewText)")
+            
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
