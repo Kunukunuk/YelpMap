@@ -13,9 +13,10 @@ import CoreLocation
 class customAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var title: String?
+    var subtitle: String?
+    var extraInfo: String?
     
-    init(pinTitle: String, location: CLLocationCoordinate2D) {
-        self.title = pinTitle
+    init(location: CLLocationCoordinate2D) {
         self.coordinate = location
     }
 }
@@ -25,6 +26,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     @IBOutlet weak var mapView: MKMapView!
     var locationManager: CLLocationManager!
     var updateCenter = false
+    var showAnnotation = true
     var restaurants: [Restaurant]?
     
     override func viewDidLoad() {
@@ -93,19 +95,25 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             if let placemarks = placemarks {
                 if placemarks.count != 0 {
                     let coordinate = placemarks.first!.location!
-                    let annotation = MKPointAnnotation()
-                    let custom = customAnnotation(pinTitle: title, location: coordinate.coordinate)
-                    annotation.coordinate = coordinate.coordinate
-                    annotation.title = title
+                    let custom = customAnnotation(location: coordinate.coordinate)
+                    custom.title = title
+                    custom.subtitle = address
                     self.mapView.addAnnotation(custom)
                 }
             }
         }
     }
     
-    /*func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        <#code#>
-    }*/
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if showAnnotation {
+            showAnnotation = false
+        } else {
+            for selectedAnnotation in mapView.selectedAnnotations {
+                mapView.deselectAnnotation(selectedAnnotation, animated: true)
+            }
+            showAnnotation = true
+        }
+    }
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         removeAnnotation()
@@ -128,7 +136,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let identifier = "customannotation"
+        let identifier = "customAnnotation"
         
         guard !(annotation is MKUserLocation) else {
             return nil
@@ -144,7 +152,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         else {
             annotationView!.annotation = annotation
         }
-        
         annotationView!.image = UIImage(named: "Food")
         
         return annotationView
