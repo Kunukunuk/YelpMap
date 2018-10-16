@@ -48,7 +48,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 50
+        tableView.estimatedRowHeight = 100
         
         getReviews()
             
