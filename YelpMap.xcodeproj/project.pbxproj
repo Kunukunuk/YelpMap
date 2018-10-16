@@ -12,6 +12,9 @@
 		0D6AB478217523F900A02DCA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D6AB477217523F900A02DCA /* Assets.xcassets */; };
 		0D6AB47B217523F900A02DCA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D6AB479217523F900A02DCA /* LaunchScreen.storyboard */; };
 		0D6AB483217525BB00A02DCA /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6AB482217525BB00A02DCA /* MapViewController.swift */; };
+		0D6AB48521752F8400A02DCA /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6AB48421752F8400A02DCA /* APIManager.swift */; };
+		0D6AB487217535A500A02DCA /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6AB486217535A500A02DCA /* Restaurant.swift */; };
+		B28B25DDC6EA803F119A1E35 /* Pods_YelpMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2E8DE01E8FDC042C7FF1C38 /* Pods_YelpMap.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,11 @@
 		0D6AB47A217523F900A02DCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0D6AB47C217523F900A02DCA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0D6AB482217525BB00A02DCA /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		0D6AB48421752F8400A02DCA /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		0D6AB486217535A500A02DCA /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
+		6A3DEB02C16DA25403D99528 /* Pods-YelpMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YelpMap.debug.xcconfig"; path = "Target Support Files/Pods-YelpMap/Pods-YelpMap.debug.xcconfig"; sourceTree = "<group>"; };
+		C2E8DE01E8FDC042C7FF1C38 /* Pods_YelpMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YelpMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBFE18360FC0DC0495C2C5C3 /* Pods-YelpMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YelpMap.release.xcconfig"; path = "Target Support Files/Pods-YelpMap/Pods-YelpMap.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B28B25DDC6EA803F119A1E35 /* Pods_YelpMap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +49,8 @@
 			children = (
 				0D6AB46F217523F800A02DCA /* YelpMap */,
 				0D6AB46E217523F800A02DCA /* Products */,
+				A32E6295F2B644243886579D /* Pods */,
+				2B06B6639739352C038092A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,12 +67,32 @@
 			children = (
 				0D6AB470217523F800A02DCA /* AppDelegate.swift */,
 				0D6AB482217525BB00A02DCA /* MapViewController.swift */,
+				0D6AB486217535A500A02DCA /* Restaurant.swift */,
+				0D6AB48421752F8400A02DCA /* APIManager.swift */,
 				0D6AB474217523F800A02DCA /* Main.storyboard */,
 				0D6AB477217523F900A02DCA /* Assets.xcassets */,
 				0D6AB479217523F900A02DCA /* LaunchScreen.storyboard */,
 				0D6AB47C217523F900A02DCA /* Info.plist */,
 			);
 			path = YelpMap;
+			sourceTree = "<group>";
+		};
+		2B06B6639739352C038092A0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2E8DE01E8FDC042C7FF1C38 /* Pods_YelpMap.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A32E6295F2B644243886579D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6A3DEB02C16DA25403D99528 /* Pods-YelpMap.debug.xcconfig */,
+				FBFE18360FC0DC0495C2C5C3 /* Pods-YelpMap.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,6 +102,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0D6AB47F217523F900A02DCA /* Build configuration list for PBXNativeTarget "YelpMap" */;
 			buildPhases = (
+				E11619FDF3D878855F5DD7B1 /* [CP] Check Pods Manifest.lock */,
 				0D6AB469217523F800A02DCA /* Sources */,
 				0D6AB46A217523F800A02DCA /* Frameworks */,
 				0D6AB46B217523F800A02DCA /* Resources */,
@@ -130,11 +162,38 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		E11619FDF3D878855F5DD7B1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YelpMap-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0D6AB469217523F800A02DCA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D6AB487217535A500A02DCA /* Restaurant.swift in Sources */,
+				0D6AB48521752F8400A02DCA /* APIManager.swift in Sources */,
 				0D6AB471217523F800A02DCA /* AppDelegate.swift in Sources */,
 				0D6AB483217525BB00A02DCA /* MapViewController.swift in Sources */,
 			);
@@ -280,6 +339,7 @@
 		};
 		0D6AB480217523F900A02DCA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A3DEB02C16DA25403D99528 /* Pods-YelpMap.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -298,6 +358,7 @@
 		};
 		0D6AB481217523F900A02DCA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBFE18360FC0DC0495C2C5C3 /* Pods-YelpMap.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
