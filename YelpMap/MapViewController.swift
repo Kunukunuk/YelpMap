@@ -14,8 +14,8 @@ class customAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
-    var extraInfo: String?
     var restaurantImage: UIImage?
+    var rating: UIImage?
     
     init(location: CLLocationCoordinate2D) {
         self.coordinate = location
@@ -28,7 +28,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var locationManager: CLLocationManager!
     var updateCenter = false
     var showAnnotation = true
-    var previousRestaurant: String = ""
+    var resturantName = ""
     var restaurants: [Restaurant]?
     
     override func viewDidLoad() {
@@ -62,7 +62,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                         image = UIImage(data: data)
                     }
                 }
-                addAnnotationAtAddress(address: restaurant.address!, title: restaurant.name!, image: image!)
+                addAnnotationAtAddress(address: restaurant.address!, title: restaurant.name!, restImage: image!, rating: restaurant.ratingImage!)
             }
         }
     }
@@ -84,16 +84,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         print("Finsihed")
         restaurants?.removeAll()
         updateCenter = true
-        let location = locationManager.location?.coordinate
-        APIManager().getRestaurants(latitude: (location?.latitude)!, longitude: (location?.longitude)!) { (rest: [Restaurant]?, error: Error?) in
-            if let error = error {
-                print("error: \(error.localizedDescription)")
-            } else {
-                print("successful")
-                self.restaurants = rest
-                self.createAnnotationOnMap()
-            }
-        }
     }
     
     func removeAnnotation() {
@@ -101,17 +91,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         mapView.removeAnnotations( annotationsToRemove )
     }
     
-    func addAnnotationAtAddress(address: String, title: String, image: UIImage) {
+    func addAnnotationAtAddress(address: String, title: String, restImage: UIImage, rating: UIImage) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address) { (placemarks, error) in
             if let placemarks = placemarks {
                 if placemarks.count != 0 {
                     let coordinate = placemarks.first!.location!
                     let custom = customAnnotation(location: coordinate.coordinate)
-                    custom.restaurantImage = image
+                    custom.restaurantImage = restImage
                     custom.title = title
                     custom.subtitle = address
-                    custom.extraInfo = "********"
+                    custom.rating = rating
                     self.mapView.addAnnotation(custom)
                 }
             }
@@ -122,6 +112,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         performSegue(withIdentifier: "GoToDetails", sender: self)
     }
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        resturantName = ((view.annotation?.title)!)!
         
         if showAnnotation {
             showAnnotation = false
@@ -152,7 +144,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             }
         }
     }
-    
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+        
+        restaurants?.removeAll()
+        let location = locationManager.location?.coordinate
+        APIManager().getRestaurants(latitude: (location?.latitude)!, longitude: (location?.longitude)!) { (rest: [Restaurant]?, error: Error?) in
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+            } else {
+                print("successful")
+                self.restaurants = rest
+                self.createAnnotationOnMap()
+            }
+        }
+        
+    }
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "customAnnotation"
         
@@ -174,6 +180,20 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             
             annotationView?.image = resizedImage
             
+            let imageView: UIImageView! = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+            
+            //var stack = UIStackView()
+            let address = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+            address.text = custom.subtitle
+            let rating = custom.rating
+            imageView.image = rating
+            let stack = UIStackView(arrangedSubviews: [address, imageView])
+            stack.axis = .vertical
+            stack.distribution = .equalSpacing
+            stack.alignment = .center
+            stack.spacing = 5
+            annotationView?.detailCalloutAccessoryView = stack
+            //annotationView?.leftCalloutAccessoryView = UIImageView(image: resizedImage)
             annotationView?.rightCalloutAccessoryView = UIButton(type: .infoLight)
         }
         else {
