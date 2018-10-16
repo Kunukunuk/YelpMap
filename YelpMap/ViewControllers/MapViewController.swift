@@ -125,12 +125,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
     }
     
-    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        removeAnnotation()
-    }
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         if updateCenter {
-            print("ending here")
             restaurants?.removeAll()
             let location = self.mapView.centerCoordinate
             APIManager().getRestaurants(latitude: location.latitude, longitude: location.longitude) { (rest: [Restaurant]?, error: Error?) in
@@ -178,7 +174,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             pinImage!.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
             let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
             
-            annotationView?.image = resizedImage
+            //annotationView?.image = resizedImage
+            annotationView?.image = UIImage(named: "Food")
             
             let imageView: UIImageView! = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
             
@@ -193,7 +190,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             stack.alignment = .center
             stack.spacing = 5
             annotationView?.detailCalloutAccessoryView = stack
-            //annotationView?.leftCalloutAccessoryView = UIImageView(image: resizedImage)
+            annotationView?.leftCalloutAccessoryView = UIImageView(image: resizedImage)
             annotationView?.rightCalloutAccessoryView = UIButton(type: .infoLight)
         }
         else {

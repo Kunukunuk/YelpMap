@@ -72,18 +72,42 @@
 			isa = PBXGroup;
 			children = (
 				0D6AB470217523F800A02DCA /* AppDelegate.swift */,
-				0D6AB482217525BB00A02DCA /* MapViewController.swift */,
+				0D6AB4912176A6D700A02DCA /* Model */,
+				0D6AB4902176A6BF00A02DCA /* ViewControllers */,
 				0D6AB486217535A500A02DCA /* Restaurant.swift */,
-				0D6AB48B2176807F00A02DCA /* ReviewerCell.swift */,
 				0D6AB48421752F8400A02DCA /* APIManager.swift */,
-				0D6AB4892176787B00A02DCA /* DetailsViewController.swift */,
 				0D6AB48D2176878900A02DCA /* Reviewers.swift */,
+				0D6AB48F2176A6A500A02DCA /* Views */,
 				0D6AB474217523F800A02DCA /* Main.storyboard */,
 				0D6AB477217523F900A02DCA /* Assets.xcassets */,
 				0D6AB479217523F900A02DCA /* LaunchScreen.storyboard */,
 				0D6AB47C217523F900A02DCA /* Info.plist */,
 			);
 			path = YelpMap;
+			sourceTree = "<group>";
+		};
+		0D6AB48F2176A6A500A02DCA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0D6AB48B2176807F00A02DCA /* ReviewerCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0D6AB4902176A6BF00A02DCA /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0D6AB482217525BB00A02DCA /* MapViewController.swift */,
+				0D6AB4892176787B00A02DCA /* DetailsViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0D6AB4912176A6D700A02DCA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2B06B6639739352C038092A0 /* Frameworks */ = {
