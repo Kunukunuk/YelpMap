@@ -33,6 +33,7 @@
                     <navigationItem key="navigationItem" id="Ih9-7z-hYg"/>
                     <connections>
                         <outlet property="mapView" destination="ZVe-wb-Igl" id="d33-DC-GS0"/>
+                        <segue destination="X6j-eA-7Po" kind="show" identifier="GoToDetails" id="STG-Fz-iRX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -15,6 +15,7 @@ class customAnnotation: NSObject, MKAnnotation {
     var title: String?
     var subtitle: String?
     var extraInfo: String?
+    var restaurantImage: UIImage?
     
     init(location: CLLocationCoordinate2D) {
         self.coordinate = location
@@ -27,6 +28,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var locationManager: CLLocationManager!
     var updateCenter = false
     var showAnnotation = true
+    var previousRestaurant: String = ""
     var restaurants: [Restaurant]?
     
     override func viewDidLoad() {
@@ -49,9 +51,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func createAnnotationOnMap() {
+        removeAnnotation()
         if let restaurants = restaurants {
             for restaurant in restaurants {
-                addAnnotationAtAddress(address: restaurant.address!, title: restaurant.name!)
+                var image: UIImage?
+                if restaurant.imageURL == nil {
+                    image = UIImage(named: "Food")
+                } else {
+                    if let data = try? Data(contentsOf: restaurant.imageURL!) {
+                        image = UIImage(data: data)
+                    }
+                }
+                addAnnotationAtAddress(address: restaurant.address!, title: restaurant.name!, image: image!)
             }
         }
     }
@@ -71,6 +82,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         print("Finsihed")
+        restaurants?.removeAll()
         updateCenter = true
         let location = locationManager.location?.coordinate
         APIManager().getRestaurants(latitude: (location?.latitude)!, longitude: (location?.longitude)!) { (rest: [Restaurant]?, error: Error?) in
@@ -89,22 +101,28 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         mapView.removeAnnotations( annotationsToRemove )
     }
     
-    func addAnnotationAtAddress(address: String, title: String) {
+    func addAnnotationAtAddress(address: String, title: String, image: UIImage) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address) { (placemarks, error) in
             if let placemarks = placemarks {
                 if placemarks.count != 0 {
                     let coordinate = placemarks.first!.location!
                     let custom = customAnnotation(location: coordinate.coordinate)
+                    custom.restaurantImage = image
                     custom.title = title
                     custom.subtitle = address
+                    custom.extraInfo = "********"
                     self.mapView.addAnnotation(custom)
                 }
             }
         }
     }
     
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        performSegue(withIdentifier: "GoToDetails", sender: self)
+    }
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
         if showAnnotation {
             showAnnotation = false
         } else {
@@ -141,30 +159,35 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         guard !(annotation is MKUserLocation) else {
             return nil
         }
-        
+        let custom = annotation as! customAnnotation
         // custom image annotation
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
         if (annotationView == nil) {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
+            
+            let pinImage = custom.restaurantImage
+            let size = CGSize(width: 40, height: 40)
+            UIGraphicsBeginImageContext(size)
+            pinImage!.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+            
+            annotationView?.image = resizedImage
+            
             annotationView?.rightCalloutAccessoryView = UIButton(type: .infoLight)
         }
         else {
             annotationView!.annotation = annotation
         }
-        annotationView!.image = UIImage(named: "Food")
+        
         
         return annotationView
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "GoToDetails" {
+            
+        }
     }
-    */
 
 }
