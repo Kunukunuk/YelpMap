@@ -46,4 +46,25 @@ class APIManager {
         }
         task.resume()
     }
+    
+    func getRestaurantReviews(with restaurantId: String, completion: @escaping ([Reviewers]?, Error?) -> Void) {
+        
+        let url = URL(string: "https://api.yelp.com/v3/businesses/\(restaurantId)/reviews")!
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        request.setValue("Bearer \(APIManager.apiKey)", forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if let data = data {
+                
+                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                
+                let reviewers = dataDictionary["reviews"] as! [[String: Any]]
+                
+                completion(Reviewers.reviews(yelpReviwers: reviewers), nil)
+            } else {
+                completion(nil, error)
+            }
+        }
+        task.resume()
+    }
 }

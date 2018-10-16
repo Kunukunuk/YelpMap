@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController {
+class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
     @IBOutlet weak var tableView: UITableView!
@@ -20,6 +20,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var ratingLabel: UILabel!
     
     var restaurant: Restaurant?
+    var reviwers: [Reviewers]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,19 +31,31 @@ class DetailsViewController: UIViewController {
                     restaurantImageView.image = UIImage(data: data)
                 }
             }
-            
-            if restaurant?.ratingImage != nil {
-                ratingImageView.image = restaurant?.ratingImage
-            }
-            
-            restaurantNameLabel.text = restaurant?.name
-            categoriesListLabel.text = restaurant?.categories
-            phoneLabel.text = restaurant?.phoneNumber
-            ratingLabel.text = "\((restaurant?.rating)!)"
         }
+            
+        if restaurant?.ratingImage != nil {
+            ratingImageView.image = restaurant?.ratingImage
+        }
+        
+        restaurantNameLabel.text = restaurant?.name
+        categoriesListLabel.text = restaurant?.categories
+        phoneLabel.text = restaurant?.phoneNumber
+        ratingLabel.text = "\((restaurant?.rating)!)"
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+            
     }
     
-
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return reviwers?.count ?? 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewerCell", for: indexPath)
+        
+        return cell
+    }
     /*
     // MARK: - Navigation
 
