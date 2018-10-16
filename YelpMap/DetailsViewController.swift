@@ -12,21 +12,34 @@ class DetailsViewController: UIViewController {
 
     
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var ratingImageView: UIImageView!
-    
     @IBOutlet weak var restaurantImageView: UIImageView!
-    
     @IBOutlet weak var restaurantNameLabel: UILabel!
-    
     @IBOutlet weak var phoneLabel: UILabel!
-    
     @IBOutlet weak var categoriesListLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    
+    var restaurant: Restaurant?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        if restaurant != nil {
+            if restaurant?.imageURL != nil {
+                if let data = try? Data(contentsOf: restaurant!.imageURL!) {
+                    restaurantImageView.image = UIImage(data: data)
+                }
+            }
+            
+            if restaurant?.ratingImage != nil {
+                ratingImageView.image = restaurant?.ratingImage
+            }
+            
+            restaurantNameLabel.text = restaurant?.name
+            categoriesListLabel.text = restaurant?.categories
+            phoneLabel.text = restaurant?.phoneNumber
+            ratingLabel.text = "\((restaurant?.rating)!)"
+        }
     }
     
 

@@ -206,7 +206,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GoToDetails" {
-            
+            let destinationVC = segue.destination as! DetailsViewController
+            for restaurant in restaurants! {
+                if restaurant.name == resturantName {
+                    destinationVC.restaurant = restaurant
+                }
+            }
         }
     }
 

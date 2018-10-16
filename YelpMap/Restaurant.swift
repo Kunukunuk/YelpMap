@@ -18,6 +18,8 @@ class Restaurant: NSObject {
     let distance: String?
     let ratingImage: UIImage?
     let reviewCount: NSNumber?
+    let rating: Double?
+    let phoneNumber: String?
     let id:  String?
     
     init(dictionary: [String: Any]) {
@@ -67,7 +69,10 @@ class Restaurant: NSObject {
         reviewCount = dictionary["review_count"] as? NSNumber
         id = dictionary["id"] as? String
         
-        let rating = dictionary["rating"] as? Double
+        phoneNumber = dictionary["phone"] as? String
+
+        rating = dictionary["rating"] as? Double
+        
         if rating != nil {
             switch rating {
             case 1:
