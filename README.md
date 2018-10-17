@@ -1,6 +1,6 @@
-# Project 3 - *YelpMap*
+*YelpMap*
 
-**YelpMap** is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
+**YelpMap** is a Yelp search app using the [Yelp API]
 
 Time spent: **30** hours spent in total
 
@@ -17,7 +17,8 @@ Time spent: **30** hours spent in total
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+![kun_huang_yelpmap](https://user-images.githubusercontent.com/28847045/47057242-c32e8580-d18d-11e8-8620-214d34994eac.gif)
+
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -27,7 +28,7 @@ Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2018] [Kun Huang]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
