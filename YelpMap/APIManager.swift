@@ -11,8 +11,10 @@ import UIKit
 import CoreLocation
 
 class APIManager {
+    
     static let apiKey = "izCFqEx0usiPwAiv_ymJ4Sl2Lr_mpnN6U_VeEkn1iUyEUWLM2Rd76A6NlswCI-HlYVWYT2WYRFtNnD04lgageyBKPJkqDDA75C8UsJYwc7oXWMGDFSCRU93zoTBaW3Yx"
     static let baseURLString = "https://api.yelp.com/v3/businesses/search"
+    
     var session: URLSession
     
     init() {
@@ -21,13 +23,6 @@ class APIManager {
     
     func getRestaurants(latitude: CLLocationDegrees, longitude: CLLocationDegrees, completion: @escaping ([Restaurant]?, Error?) -> Void) {
         
-        //let lat: Decimal = Decimal(location.coordinate.latitude)
-        //let long: Decimal = Decimal(location.coordinate.longitude)
-        /*let parameter: [String: AnyObject] = [
-                                            "term": "Restaurant" as AnyObject,
-                                            "location": "\(lat), \(long)" as AnyObject
-                                              ]
-        let data = try! JSONSerialization.data(withJSONObject: parameter)*/
         let parameter = "term=Restaurant&location=\(latitude),\(longitude)&limit=50"
         let url = URL(string: APIManager.baseURLString + "?" + parameter)!
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
@@ -67,4 +62,22 @@ class APIManager {
         }
         task.resume()
     }
+    
+    /*func showLoading(result: Bool) {
+        
+        let presentViewController = UIApplication.shared.keyWindow?.rootViewController
+        let pVC = (presentViewController?.presentedViewController)!
+        
+        let loading = MBProgressHUD.showAdded(to: pVC.view, animated: true)
+        loading.label.text = "Getting Data"
+        
+        loading.mode = .customView
+        if result {
+            loading.customView = UIImageView(image: UIImage(named: "check.png"))
+        } else {
+            loading.customView = UIImageView(image: UIImage(named: "error.png"))
+        }
+        loading.label.text = "Finished"
+        loading.hide(animated: true, afterDelay: 1)
+    }*/
 }

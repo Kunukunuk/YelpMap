@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import MBProgressHUD
 
 class customAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
@@ -65,6 +66,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 addAnnotationAtAddress(address: restaurant.address!, title: restaurant.name!, restImage: image!, rating: restaurant.ratingImage!)
             }
         }
+        
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
@@ -81,12 +83,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
 
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        print("Finsihed")
-        restaurants?.removeAll()
         updateCenter = true
     }
     
     func removeAnnotation() {
+        //restaurants?.removeAll()
         let annotationsToRemove = mapView.annotations
         mapView.removeAnnotations( annotationsToRemove )
     }
@@ -127,33 +128,54 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         if updateCenter {
-            restaurants?.removeAll()
+            let loading = MBProgressHUD.showAdded(to: self.view, animated: true)
+            loading.label.text = "Getting data"
+            
             let location = self.mapView.centerCoordinate
             APIManager().getRestaurants(latitude: location.latitude, longitude: location.longitude) { (rest: [Restaurant]?, error: Error?) in
                 if let error = error {
                     print("error*** :\(error.localizedDescription)")
+                    loading.mode = .customView
+                    loading.customView = UIImageView(image: UIImage(named: "error.png"))
+                    loading.label.text = "Finished"
+                    loading.hide(animated: true, afterDelay: 1)
                 } else {
                     print("successfully")
                     self.restaurants = rest
                     self.createAnnotationOnMap()
+                    loading.mode = .customView
+                    loading.customView = UIImageView(image: UIImage(named: "check.png"))
+                    loading.label.text = "Finished"
+                    loading.hide(animated: true, afterDelay: 1)
                 }
             }
+            updateCenter = false
         }
     }
     func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         
+        let loading = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loading.label.text = "Getting data"
         restaurants?.removeAll()
         let location = locationManager.location?.coordinate
         APIManager().getRestaurants(latitude: (location?.latitude)!, longitude: (location?.longitude)!) { (rest: [Restaurant]?, error: Error?) in
             if let error = error {
                 print("error: \(error.localizedDescription)")
+                loading.mode = .customView
+                loading.customView = UIImageView(image: UIImage(named: "error.png"))
+                loading.label.text = "Finished"
+                loading.hide(animated: true, afterDelay: 1)
             } else {
                 print("successful")
                 self.restaurants = rest
                 self.createAnnotationOnMap()
+                loading.mode = .customView
+                loading.customView = UIImageView(image: UIImage(named: "check.png"))
+                loading.label.text = "Finished"
+                loading.hide(animated: true, afterDelay: 1)
             }
         }
-        
+        updateCenter = true
     }
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "customAnnotation"

@@ -42,7 +42,9 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
         restaurantNameLabel.text = restaurant?.name
         categoriesListLabel.text = restaurant?.categories
         phoneLabel.text = restaurant?.phoneNumber
-        ratingLabel.text = "\((restaurant?.rating)!)"
+        if restaurant?.rating != nil {
+            ratingLabel.text = "\((restaurant?.rating)!)"
+        }
         totalReviewLabel.text = "\((restaurant?.reviewCount)!) Reviews"
         tableView.dataSource = self
         tableView.delegate = self

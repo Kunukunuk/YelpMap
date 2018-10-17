@@ -63,7 +63,12 @@ class Reviewers: NSObject {
         
         reviewerName = user!["name"] as? String
         let urlString = user!["image_url"] as? String
-        let imageURL = URL(string: urlString!)
+        let imageURL: URL?
+        if urlString != "" {
+            imageURL = URL(string: urlString!)
+        } else {
+            imageURL = URL(string: "")
+        }
         if let data = try? Data(contentsOf: imageURL!) {
             reviewerImage = UIImage(data: data)
         } else {
