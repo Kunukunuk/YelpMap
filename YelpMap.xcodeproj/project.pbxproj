@@ -17,6 +17,7 @@
 		0D6AB48A2176787B00A02DCA /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6AB4892176787B00A02DCA /* DetailsViewController.swift */; };
 		0D6AB48C2176807F00A02DCA /* ReviewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6AB48B2176807F00A02DCA /* ReviewerCell.swift */; };
 		0D6AB48E2176878900A02DCA /* Reviewers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6AB48D2176878900A02DCA /* Reviewers.swift */; };
+		0D6AB4952176D17000A02DCA /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D6AB4942176D17000A02DCA /* MapKit.framework */; };
 		B28B25DDC6EA803F119A1E35 /* Pods_YelpMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2E8DE01E8FDC042C7FF1C38 /* Pods_YelpMap.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		0D6AB4892176787B00A02DCA /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		0D6AB48B2176807F00A02DCA /* ReviewerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewerCell.swift; sourceTree = "<group>"; };
 		0D6AB48D2176878900A02DCA /* Reviewers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviewers.swift; sourceTree = "<group>"; };
+		0D6AB4942176D17000A02DCA /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6A3DEB02C16DA25403D99528 /* Pods-YelpMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YelpMap.debug.xcconfig"; path = "Target Support Files/Pods-YelpMap/Pods-YelpMap.debug.xcconfig"; sourceTree = "<group>"; };
 		C2E8DE01E8FDC042C7FF1C38 /* Pods_YelpMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YelpMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBFE18360FC0DC0495C2C5C3 /* Pods-YelpMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YelpMap.release.xcconfig"; path = "Target Support Files/Pods-YelpMap/Pods-YelpMap.release.xcconfig"; sourceTree = "<group>"; };
@@ -43,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D6AB4952176D17000A02DCA /* MapKit.framework in Frameworks */,
 				B28B25DDC6EA803F119A1E35 /* Pods_YelpMap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,6 +116,7 @@
 		2B06B6639739352C038092A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D6AB4942176D17000A02DCA /* MapKit.framework */,
 				C2E8DE01E8FDC042C7FF1C38 /* Pods_YelpMap.framework */,
 			);
 			name = Frameworks;
