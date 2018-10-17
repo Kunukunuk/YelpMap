@@ -81,10 +81,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             locationManager.startUpdatingLocation()
         }
     }
-
-    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        updateCenter = true
-    }
     
     func removeAnnotation() {
         //restaurants?.removeAll()
@@ -116,20 +112,25 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         resturantName = ((view.annotation?.title)!)!
         
-        if showAnnotation {
+        /*if showAnnotation {
             showAnnotation = false
         } else {
             for selectedAnnotation in mapView.selectedAnnotations {
                 mapView.deselectAnnotation(selectedAnnotation, animated: true)
             }
             showAnnotation = true
-        }
+        }*/
+    }
+    
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        removeAnnotation()
+        restaurants?.removeAll()
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         if updateCenter {
             let loading = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loading.label.text = "Getting data"
+            loading.label.text = "Getting change"
             
             let location = self.mapView.centerCoordinate
             APIManager().getRestaurants(latitude: location.latitude, longitude: location.longitude) { (rest: [Restaurant]?, error: Error?) in
@@ -149,16 +150,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                     loading.hide(animated: true, afterDelay: 1)
                 }
             }
-            updateCenter = false
         }
     }
+ 
     func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
         
+        updateCenter = true
         let loading = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loading.label.text = "Getting data"
+        loading.label.text = "Getting render"
         restaurants?.removeAll()
-        let location = locationManager.location?.coordinate
-        APIManager().getRestaurants(latitude: (location?.latitude)!, longitude: (location?.longitude)!) { (rest: [Restaurant]?, error: Error?) in
+        let location = self.mapView.centerCoordinate
+        APIManager().getRestaurants(latitude: location.latitude, longitude: location.longitude) { (rest: [Restaurant]?, error: Error?) in
             if let error = error {
                 print("error: \(error.localizedDescription)")
                 loading.mode = .customView
@@ -175,7 +177,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 loading.hide(animated: true, afterDelay: 1)
             }
         }
-        updateCenter = true
     }
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "customAnnotation"
